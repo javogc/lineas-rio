@@ -2,19 +2,23 @@ import * as Tone from "tone";
 
 let synth;
 
+const C_MAJOR_MODE = [60, 62, 64, 65, 67, 69, 71, 72]; // MIDI notes: C, D, E, F, G, A, B, C
+
 export async function playSynth(features) {
   //crear el synth
 
-  synth = new Tone.Synth().toDestination();
+  synth = new Tone.PolySynth().toDestination();
 
   // mapeo básico, geometría a notas
 
   features.forEach((feature) => {
     const coordinates = feature.geometry.coordinates[0];
 
-    const notes = coordinates.map(([lon, lat]) =>
-      Tone.Frequency(lat % 127, "midi").toFrequency()
-    );
+    const notes = coordinates.map(([lon, lat]) => {
+      return Tone.Frequency(mapToMode(lat, C_MAJOR_MODE), "midi").toFrequency();
+    });
+
+    console.log("notes", notes);
 
     const now = Tone.now();
 
@@ -30,3 +34,13 @@ export async function stopSynth() {
     synth = null;
   }
 }
+
+//mapear valores a un modo
+
+const mapToMode = (lat, mode, minLat = 25.69, scale = 100) => {
+  //restamos el minimo de latitud al valor, para ser más especifico. Y luego multiplicamos, para ampliar variabilidad de alturas
+  const normalizedLat = (lat - minLat) * scale;
+  const fractionalLat = normalizedLat % 1; //asegurar qué el valor este entre 0 y 1, con modulo
+  const modeIndex = Math.floor(fractionalLat * mode.length); // Escalar al modo
+  return mode[modeIndex];
+};
