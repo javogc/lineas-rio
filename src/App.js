@@ -1,79 +1,28 @@
 import React from "react";
-import * as Tone from "tone";
-import { playSynth, stopSynth } from "./scripts/toneSynth";
+import { datosRio } from "./scripts/helper";
+import { playParte1 } from "./scripts/parte1";
 
-const mockFeatures = [
-  {
-    geometry: {
-      coordinates: [
-        [
-          [-100.228703615, 25.692406538],
-          [-100.228597323, 25.692501738],
-          [-100.228485108, 25.692591185],
-          [-100.228373569, 25.692681354],
-          [-100.228248569, 25.6927556],
-          [-100.228124431, 25.692831015],
-          [-100.228009369, 25.692917477],
-          [-100.227900277, 25.693010046],
-          [-100.227802677, 25.693112615],
-          [-100.227681908, 25.693192415],
-          [-100.227558277, 25.693268523],
-          [-100.227415831, 25.693309569],
-          [-100.227271138, 25.693343492],
-          [-100.227126431, 25.693377415],
-          [-100.226981354, 25.69341],
-          [-100.226838169, 25.693448877],
-          [-100.226696677, 25.693492492],
-          [-100.226548123, 25.693507615],
-          [-100.226399554, 25.693522369],
-          [-100.226251815, 25.693542969],
-          [-100.226104092, 25.693563554],
-          [-100.225956277, 25.6935836],
-          [-100.225809277, 25.693608215],
-          [-100.225661954, 25.693631061],
-          [-100.225516754, 25.693663231],
-          [-100.225367461, 25.6936698],
-          [-100.225218754, 25.693656108],
-          [-100.22507, 25.693642877],
-          [-100.224922769, 25.693619554],
-          [-100.224781338, 25.693575723],
-          [-100.224642723, 25.693525061],
-          [-100.224500231, 25.693484185],
-          [-100.224363846, 25.693428785],
-          [-100.224231015, 25.693366677],
-          [-100.224108508, 25.693289092],
-          [-100.223998246, 25.693197646],
-          [-100.223891938, 25.693102461],
-          [-100.223792092, 25.693001677],
-          [-100.223715754, 25.692885231],
-          [-100.223631662, 25.692773277],
-          [-100.223521492, 25.692681754],
-          [-100.223396185, 25.692607923],
-          [-100.223270892, 25.692534108],
-          [-100.223147877, 25.692457154],
-          [-100.223053908, 25.692351846],
-          [-100.222959938, 25.692246538],
-        ],
-      ],
-    },
-  },
-];
 function App() {
-  const handlePlay = async () => {
-    await Tone.start();
-    playSynth(mockFeatures);
-  };
+  //devuelve una promesa,
+  // de qué lo qué está adentro de la función se ejecute
 
-  const handleStop = () => {
-    stopSynth();
+  //procesar los datos del río
+  const datosRioValue = datosRio || 0;
+  const datosRioFeatures = datosRioValue.features || [];
+  const datosRioSize = datosRioFeatures.length;
+
+  const handlePlayParte1 = async () => {
+    await playParte1();
+
+    console.log("playing parte 1");
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "20vh" }}>
       <h1>Las líneas de un río</h1>
-      <p>Version 1.0: Sonificación de datos del río Santa Catarina</p>
-      <button onClick={handlePlay}>Play</button>
-      <button onClick={handleStop}>Stop</button>
+      <p>Version 1.1: Sonificación de datos del río Santa Catarina</p>
+
+      <button onClick={handlePlayParte1}>Tocar parte 1</button>
     </div>
   );
 }

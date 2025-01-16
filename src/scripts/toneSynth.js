@@ -25,6 +25,14 @@ export async function playSynth(features) {
     notes.forEach((note, index) => {
       synth.triggerAttackRelease(note, "2n", now + index * 0.5);
     });
+
+    notes.forEach((note, index) => {
+      synth.triggerAttackRelease(note, "4n", now + index * 0.5);
+    });
+
+    notes.forEach((note, index) => {
+      synth.triggerAttackRelease(note, "8n", now + index * 0.5);
+    });
   });
 }
 
@@ -37,7 +45,7 @@ export async function stopSynth() {
 
 //mapear valores a un modo
 
-const mapToMode = (lat, mode, minLat = 25.69, scale = 100) => {
+const mapToMode = (lat, mode, minLat = 25.69, scale = 110) => {
   //restamos el minimo de latitud al valor, para ser más especifico. Y luego multiplicamos, para ampliar variabilidad de alturas
   const normalizedLat = (lat - minLat) * scale;
   const fractionalLat = normalizedLat % 1; //asegurar qué el valor este entre 0 y 1, con modulo
